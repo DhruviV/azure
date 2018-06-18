@@ -16,7 +16,11 @@ cursor = connection.cursor()
 
 @app.route('/')
 def index():
+   return render_template('index.html')
 
+@app.route('/search', methods=['POST', 'GET'])
+def search():
+     k = request.args.get("k")
      cursor.execute("Select * from titanic3")
      rows=cursor.fetchall()
      pclass = []
@@ -42,7 +46,7 @@ def index():
      X = np.array(list(zip(survival[:len(survival) - 1], pclass[:len(pclass) - 1])))
      print('\n\n X -------------------------------------', X)
 
-     km = KMeans(n_clusters=10)
+     km = KMeans(n_clusters=int(k))
      km.fit(X)
      centroids = km.cluster_centers_
      labels = km.labels_
