@@ -1,7 +1,9 @@
 from copy import deepcopy
-import numpy as np
+from werkzeug.exceptions import abort
+
 from flask import Flask, render_template, request
 import pypyodbc
+import numpy as np
 import scipy
 from sklearn.cluster import KMeans
 

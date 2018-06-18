@@ -1,7 +1,8 @@
 Flask
 pypyodbc
 numpy
-
+werkzeug.exceptions
 scipy
+abort
 scikit-learn
 
