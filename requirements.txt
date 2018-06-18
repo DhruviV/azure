@@ -1,2 +1,7 @@
 Flask
 pypyodbc
+numpy
+random
+scipy
+scikit-learn
+
