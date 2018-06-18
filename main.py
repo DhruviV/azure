@@ -1,7 +1,6 @@
 from copy import deepcopy
 import numpy as np
-from flask import Flask, render_template, request,flash,url_for
-
+from flask import Flask, render_template, request
 import pypyodbc
 import scipy
 from sklearn.cluster import KMeans
