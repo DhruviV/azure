@@ -1,8 +1,10 @@
-from flask import Flask, render_template, request,flash,url_for
+from copy import deepcopy
 import numpy as np
-import scipy
-import sklearn.cluster from KMeans
+from flask import Flask, render_template, request,flash,url_for
+
 import pypyodbc
+import scipy
+from sklearn.cluster import KMeans
 
 
 
