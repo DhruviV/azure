@@ -22,8 +22,10 @@
                 {% for ar2 in centroid %}
         <p>{{ ar2[0] }}</p>
         {% endfor %}
-<table style="width:100%" border=1>
-        <tr>
+<div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-4">
+          <table class="table-striped" class="tmargin">
           <th>Fare</th>
           <th>Age</th>
           <th>Cluster No.</th>
@@ -61,6 +63,29 @@
               {% endfor %}
             </tbody>
           </table>
+
+
+
+        {% for label in range(label_length) %}
+          <h3>Cluster Label :{{ label }}</h3>
+          <h4>Total Count: {{ length_value[label] }}</h4>
+          <table class="table-striped" class="tmargin">
+            <thead>
+              <tr>
+                <th>X</th>
+                <th>Y</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for j in range(length_value[label])%}
+              <tr>
+                <td class="col-md-2">{{dhruvi[label][j][0]}}</td>
+                <td class="col-md-2">{{dhruvi[label][j][1]}}</td>
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+          {% endfor %}
         </div>
     </div>
 
@@ -68,5 +93,5 @@
 
 
 
-    </body>
+</div></div></body>
 </html>

@@ -62,6 +62,14 @@ def search():
      labels = km.labels_
      dhruvi={i: X[np.where(km.labels_ == i)] for i in range(km.n_clusters)}
      print(dhruvi)
+     label_length=len(dhruvi) #same as no of clusters
+
+     length_value=[] #cpunt all valuesof single single labels
+     # eg:len_values = [[32],[10],[4],[70]]    ...i.e lengths of 4 labels
+     for i in range(len(dhruvi)):
+         length_value.append(len(dhruvi[i]))
+
+     print(length_value)
 
      colors = ["g.", "r.", "b.", "y." "c.", "m.", "k.", "w."]
 
@@ -86,6 +94,6 @@ def search():
      print(dist_list)
      dist_len = len(dist_list)
 
-     return render_template('output.html', my=displaylist, centroid=centroids, distances = dist_list, length=dist_len)
+     return render_template('output.html', my=displaylist, centroid=centroids, distances = dist_list, length=dist_len,dhruvi=dhruvi,length_value=length_value,label_length=label_length)
 if __name__ == '__main__':
    app.run(debug = True)
