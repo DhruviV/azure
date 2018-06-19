@@ -1,10 +1,12 @@
 from copy import deepcopy
 import csv
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,flash
 import pypyodbc
 import numpy as np
 import scipy
 import math
+
+from time import time
 import itertools
 from sklearn.cluster import KMeans
 
@@ -22,34 +24,35 @@ def index():
 
 @app.route('/search', methods=['POST', 'GET'])
 def search():
+     start_time = time()
      k = request.args.get("k") #no. of clusters
-     cursor.execute("Select * from titanic3")
+     cursor.execute("Select * from minnow")
      rows=cursor.fetchall() #fetches value
-     pclass = []
-     boat = []
-     survival = []
-     age = []
-     fare = []
+     # pclass = []
+     # boat = []
+     # survival = []
+     Age = []
+     Fare = []
      for row in rows:
-         pclass.append(row[0])
-         survival.append(row[1])
-         if row[11] == '':
-             boat.append(0)
+         # pclass.append(row[0])
+         # survival.append(row[1])
+         # if row[11] == '':
+         #     boat.append(0)
+         # else:
+         #     boat.append(row[11])
+         if row[3] == '' or row[4]== None:
+             Age.append(0)
          else:
-             boat.append(row[11])
-         if row[4] == '' or row[4]== None:
-             age.append(0)
+             Age.append(row[3])
+         if row[9] == '' or row[9]== None:
+             Fare.append(0)
          else:
-             age.append(row[4])
-         if row[8] == '' or row[8]== None:
-             fare.append(0)
-         else:
-             fare.append(row[8])
+             Fare.append(row[9])
 
      connection.close()
 
 
-     X = np.array(list(zip(age[:len(age) - 1], fare[:len(fare) - 1])))
+     X = np.array(list(zip(Age[:len(Age) - 1], Fare[:len(Fare) - 1])))
 
 
 
@@ -73,7 +76,7 @@ def search():
      # for i in range(len(X)):
      #     plt.plot(X[i][0], X[i][1], colors[labels[i]], markersize = 10)
      # plt.scatter(centroids[:,0],centroids[:,1],marker = "x", s = 150, linewidths=5, zorder = 10)
-     displaylist = list(zip(age,fare,labels))
+     displaylist = list(zip(Age,Fare,labels))
      print('\n\nDisplay List------------------------------------', displaylist)
      dist_list = [] #for calculating distance
      for i in range(0, len(centroids) - 1):
@@ -91,7 +94,12 @@ def search():
      print(dist_list)
      dist_len = len(dist_list)
 
-     return render_template('output.html', my=displaylist, centroid=centroids, distances = dist_list, length=dist_len,dhruvi=dhruvi,length_value=length_value,label_length=label_length)
+
+     end_time = time()
+     time_taken = (end_time - start_time)
+     flash('The Average Time taken to execute the random queries is : ' + "%.4f" % time_taken + " seconds")
+
+     return render_template('output.html', t=time_taken,my=displaylist, centroid=centroids, distances = dist_list, length=dist_len,dhruvi=dhruvi,length_value=length_value,label_length=label_length)
 
 @app.route('/insert')
 def insert():
