@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <img src='../static/images/Dhruvi.jpg' width="150" height="150"></center>
+    </head>
+    <body>
+        <div class="container">
+                <h1>hellooooo</h1>
+            <table class="table table-bordered">
+                            <tr>
+                                <th>Dhruvi Vyas</th>
+                                <th>1001516591</th>
+
+                            </tr>
+                 </table>
+
+
+
+
+                {% for ar2 in centroid %}
+        <p>{{ ar2[0] }}</p>
+        {% endfor %}
+<table style="width:100%" border=1>
+        <tr>
+          <th>Fare</th>
+          <th>Age</th>
+          <th>Cluster No.</th>
+
+
+        </tr>
+        {% for ar in my %}
+        <tr>
+          <td>{{ ar [0] }}</td>
+          <td> {{ ar[1] }} </td>
+          <td> {{ ar[2] }} </td>
+
+        </tr>
+       {% endfor %}
+
+
+      </table>
+         <div class="col-sm-1"></div>
+        <div class="col-sm-6">
+          <table class="table-striped" class="tmargin">
+            <thead>
+              <tr>
+                <th style="padding: 5px"> Centroid 1 </th>
+                <th style="padding: 5px"> Centroid 2</th>
+                <th style="padding: 5px"> Distance </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in range(length) %}
+              <tr>
+                <td>{{ distances[i][0][0] }}, {{distances[i][1][0]}}</td>
+                <td>{{ distances[i][0][1] }}, {{distances[i][1][1]}}</td>
+                <td>{{ distances[i][0][2] }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+    </div>
+
+
+
+
+
+    </body>
+</html>
