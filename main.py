@@ -25,14 +25,17 @@ def index():
 @app.route('/search', methods=['POST', 'GET'])
 def search():
      start_time = time()
-     k = request.args.get("k") #no. of clusters
-     cursor.execute("Select * from minnow")
+     k = request.args.get("k")#no. of clusters
+
+
+     cursor.execute("Select * from minnow where CabinNum like '5%'")
      rows=cursor.fetchall() #fetches value
      # pclass = []
      # boat = []
      # survival = []
      Age = []
      Fare = []
+
      for row in rows:
          # pclass.append(row[0])
          # survival.append(row[1])
