@@ -28,7 +28,7 @@ def search():
      k = request.args.get("k")#no. of clusters
 
 
-     cursor.execute("Select * from minnow where CabinNum like '5%'")
+     cursor.execute("Select * from minnow ")
      rows=cursor.fetchall() #fetches value
      # pclass = []
      # boat = []
