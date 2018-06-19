@@ -126,6 +126,13 @@ def insert():
 
     return render_template('insert.html')
 
+@app.route('/select', methods = ['POST', 'GET'])
+def select():
+    cursor = connection.cursor()
+    cabin = request.args.get("cabin")
+    cursor.execute("select * from minnow where CabinNum='" + str(cabin) + "'")
+    o_rows=cursor.fetchall()
+    return render_template('select.html',r=o_rows)
 
 
 
