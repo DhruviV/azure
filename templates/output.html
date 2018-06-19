@@ -17,10 +17,10 @@
                  </table>
 
 
+<h1>centroids</h1>
 
-
-                {% for ar2 in centroid %}
-        <p>{{ ar2[0] }}</p>
+                {% for ar in centroid %}
+        <p>{{ ar[0] }}</p>
         {% endfor %}
 <div class="row">
         <div class="col-sm-1"></div>
@@ -32,11 +32,11 @@
 
 
         </tr>
-        {% for ar in my %}
+        {% for array in my %}
         <tr>
-          <td>{{ ar [0] }}</td>
-          <td> {{ ar[1] }} </td>
-          <td> {{ ar[2] }} </td>
+          <td>{{ array [0] }}</td>
+          <td> {{ array[1] }} </td>
+          <td> {{ array[2] }} </td>
 
         </tr>
        {% endfor %}

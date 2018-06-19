@@ -1,5 +1,5 @@
 from copy import deepcopy
-
+import csv
 from flask import Flask, render_template, request
 import pypyodbc
 import numpy as np
@@ -22,9 +22,9 @@ def index():
 
 @app.route('/search', methods=['POST', 'GET'])
 def search():
-     k = request.args.get("k")
+     k = request.args.get("k") #no. of clusters
      cursor.execute("Select * from titanic3")
-     rows=cursor.fetchall()
+     rows=cursor.fetchall() #fetches value
      pclass = []
      boat = []
      survival = []
@@ -47,21 +47,18 @@ def search():
              fare.append(row[8])
 
      connection.close()
-     print('\nPCLASS --------', pclass)
-     print('\nsurvival --------', survival)
-     print('\nage --------', age)
-     print('\nfare --------', fare)
+
 
      X = np.array(list(zip(age[:len(age) - 1], fare[:len(fare) - 1])))
-     print(X)
+
 
 
      km = KMeans(n_clusters=int(k))
      km.fit(X)
      centroids = km.cluster_centers_
      labels = km.labels_
-     dhruvi={i: X[np.where(km.labels_ == i)] for i in range(km.n_clusters)}
-     print(dhruvi)
+     dhruvi={i: X[np.where(km.labels_ == i)] for i in range(km.n_clusters)} #one cluster at a time eg: 0:[...,..[,[...]
+
      label_length=len(dhruvi) #same as no of clusters
 
      length_value=[] #cpunt all valuesof single single labels
@@ -69,7 +66,7 @@ def search():
      for i in range(len(dhruvi)):
          length_value.append(len(dhruvi[i]))
 
-     print(length_value)
+
 
      colors = ["g.", "r.", "b.", "y." "c.", "m.", "k.", "w."]
 
@@ -78,22 +75,61 @@ def search():
      # plt.scatter(centroids[:,0],centroids[:,1],marker = "x", s = 150, linewidths=5, zorder = 10)
      displaylist = list(zip(age,fare,labels))
      print('\n\nDisplay List------------------------------------', displaylist)
-     dist_list = []
+     dist_list = [] #for calculating distance
      for i in range(0, len(centroids) - 1):
          for j in range(i + 1, len(centroids)):
-             # print(centroids[i],centroids[j])
+
              x1 = centroids[i][0]
              x2 = centroids[j][0]
              y1 = centroids[i][1]
              y2 = centroids[j][1]
              temp = (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2)
              dist = math.sqrt(temp)
-             print(dist)
+
              dist_list.append(list(zip(centroids[i][:], centroids[j][:], itertools.repeat(dist))))
 
      print(dist_list)
      dist_len = len(dist_list)
 
      return render_template('output.html', my=displaylist, centroid=centroids, distances = dist_list, length=dist_len,dhruvi=dhruvi,length_value=length_value,label_length=label_length)
+
+@app.route('/insert')
+def insert():
+
+    cursor.execute("CREATE TABLE [dbo].[minnow](\
+    	[CabinNum][int] NULL,\
+    	[Fname] [nvarchar] (50) NULL,\
+    	[Lname][nvarchar] (50) NULL,\
+    	[Age] [int] NULL,\
+        [Survived] [nvarchar](50) NULL,\
+    	[Lat] [int] NULL,\
+    	[Long] [int] NULL,\
+        [PictureCap][nvarchar](50) NULL,\
+        [PicturePas][nvarchar](50) NULL,\
+        [Fare][int] NULL)")
+    connection.commit()
+
+
+
+
+    query = "INSERT INTO dbo.minnow (CabinNum,Fname,Lname,Age,Survived,Lat,Long,PictureCap,PicturePas,Fare) VALUES (?,?,?,?,?,?,?,?,?,?)"
+
+
+    with open('minnow.csv') as csvfile:
+          next(csvfile)
+          reader = csv.reader(csvfile, delimiter=',')
+          for row in reader:
+              print(row)
+              cursor.execute(query,row)
+
+          connection.commit()
+
+    return render_template('insert.html')
+
+
+
+
+
+
 if __name__ == '__main__':
    app.run(debug = True)

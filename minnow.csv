@@ -1,0 +1,3 @@
+CabinNum,Fname,Lname,Age,Survived,Lat,Long,PictureCap,PicturePas,Fare
+200,Kenneth,O'Connor,16,Y,40,120,s.jpg,hm.jpg,800
+200,Dennis,Ward,94,N,40,121,s.jpg,ae.jpg,800
