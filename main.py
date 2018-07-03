@@ -2,9 +2,11 @@ from copy import deepcopy
 import csv
 from flask import Flask, render_template, request,flash
 import pypyodbc
+import random
 import numpy as np
 import scipy
 import math
+
 
 from time import time
 import itertools
@@ -136,7 +138,7 @@ def insert():
           connection.commit()
 
     return render_template('insert.html')
-
+# ************************************************************
 @app.route('/select', methods = ['POST', 'GET'])
 def select():
     cursor = connection.cursor()
@@ -155,6 +157,38 @@ def count():
     rows=cursor.fetchall()
 
     return render_template('count.html', a=rows)
+@app.route('/look', methods = ['POST', 'GET'])
+def look():
+
+    k = request.args.get("k")
+    min = request.args.get("min")
+    max = request.args.get("max")
+
+    start_time = time()
+    for i in range(0, int(k)):
+        mag = random.uniform(float(min), float(max))
+        cursor.execute("select  top 1 locationSource from earthquakes where mag>='"+str(mag)+"'")
+        result=cursor.fetchall()
+
+    end_time = time()
+    time_taken = (end_time - start_time) / int(k)
+    flash('The Average Time taken to execute the random queries is : ' + "%.4f" % time_taken + " seconds")
+    return render_template('random.html',t=time_taken,r=result)
+
+
+@app.route('/list',methods = ['POST', 'GET'])
+def list():
+
+    min = request.args.get("min")
+    max = request.args.get("max")
+    # loc = request.args.get("loc")
+    cursor.execute("select  latitude, longitude, place from edata where mag Between '"+min+"' and '"+max+"' ")
+    rows=cursor.fetchall()
+    print(rows)
+
+    return render_template('list.html', ci=rows)
+
+
 
 if __name__ == '__main__':
    app.run(debug = True)
