@@ -147,7 +147,14 @@ def select():
 
 
 
+@app.route('/count',methods = ['POST', 'GET'])
+def count():
 
+    mag = request.args.get("mag")
+    cursor.execute("Select count(*) from edata where mag>='"+mag+"'")
+    rows=cursor.fetchall()
+
+    return render_template('count.html', a=rows)
 
 if __name__ == '__main__':
    app.run(debug = True)
