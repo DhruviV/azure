@@ -17,7 +17,7 @@ from sklearn.cluster import KMeans
 app = Flask(__name__)
 app.secret_key = "Secret"
 
-connection = pypyodbc.connect("Driver={ODBC Driver 13 for SQL Server};Server=tcp:dhruvi.database.windows.net,1433;Database=Dhruvi;Uid=dhruvi@dhruvi;Pwd=Shivangi@27;")
+connection = pypyodbc.connect("Driver={ODBC Driver 13 for SQL Server};Server=(specify server name);Database=(specify databse name);Uid=(specify user id);Pwd=(specify pwd);")
 cursor = connection.cursor()
 
 @app.route('/')
